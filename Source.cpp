@@ -1,7 +1,7 @@
 //cppsh is a C++ Shell for Windows/Linux
 //Author: Chase Andersen
 //Last update: 05/12/2024
-//Version: v0.0.2
+//Version: v0.0.1
 
 #include <iostream>
 
