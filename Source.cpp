@@ -4,15 +4,53 @@
 //Version: v0.0.1
 
 #include <iostream>
+#include <stdlib.h>
 
-int main() {
-	//Load config files if any. Such as display setting for users
 
-	//Run command loop to start
-	cppsh_loop();
+char* cppsh_read_line() {
+	int cppsh_buf_size = 1024;
+	int bufsize = cppsh_buf_size;
+	int position = 0;
+	char* buffer = (char*) malloc(sizeof(char) * bufsize);
+	int c;
 
-	//Clean up and exit
-	return EXIT_SUCCESS;
+	if (!buffer) {
+		std::cerr << "cppsh: Allocation Error";
+		exit(EXIT_FAILURE);
+	}
+
+	while (1) {
+		c = getchar();
+
+		//If we hit EOF, replace it will a NULL character and return
+		if (c == EOF || c == '\n') {
+			buffer[position] = '\0';
+			return buffer;
+		}
+		else {
+			buffer[position] = c;
+		}
+		position++;
+	}
+
+	//If we exceed the limit of the buffer realocate
+	if (position >= bufsize) {
+		bufsize += cppsh_buf_size;
+		buffer = (char*) realloc(buffer, bufsize);
+
+		if (!buffer) {
+			std::cerr << "cppsh: Allocation Error";
+			exit(EXIT_FAILURE);
+		}
+	}
+}
+
+char* cppsh_split_line(char* line) {
+
+}
+
+int cppsh_execute(char* args) {
+
 }
 
 //Loop start
@@ -22,8 +60,8 @@ int main() {
 * Execute the command
 */
 void cppsh_loop() {
-	std::string* line;
-	std::string* args;
+	char* line;
+	char* args;
 	int status = 0;
 
 	do {
@@ -38,14 +76,12 @@ void cppsh_loop() {
 
 }
 
-std::string* cppsh_read_line() {
+int main() {
+	//Load config files if any. Such as display setting for users
 
-}
+	//Run command loop to start
+	cppsh_loop();
 
-std::string* cppsh_split_line(std::string* line) {
-
-}
-
-int cppsh_execute(std::string* args) {
-
+	//Clean up and exit
+	return EXIT_SUCCESS;
 }
